@@ -3,7 +3,7 @@ import os
 from pymongo import MongoClient
 import pymongo
 
-os.environ["MONGOHQ_URL"] = 'mongodb://envopsusr:axp1900@54.148.92.91/EnvOps'
+os.environ["MONGOHQ_URL"] = 'mongodb://envopsusr:axp1900@centos6-mongodb/envops'
 
 # ___________________________________________________________________________________________________________
 
@@ -13,7 +13,7 @@ class MachineDal(object):
         self.__connected = True
         try:
             self.__mongoClient = MongoClient(os.environ.get('MONGOHQ_URL'))
-            self.__db = self.__mongoClient.EnvOps
+            self.__db = self.__mongoClient.envops
             # gets machines collection from db
             self.__machines_collection = self.__db.machines
 
