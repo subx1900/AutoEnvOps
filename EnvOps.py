@@ -1,11 +1,9 @@
 import cStringIO
-
 # my classes imports
 from Credentials import Credentials
 from Machine import Machine
 from MachineDal import MachineDal
 from RemOpr import RemOpr
-
 # imports for port checking
 import socket
 import sys
@@ -39,7 +37,19 @@ class EnvOps(object):
             for service in services.keys():
                 tmpMc.addService(service, services[service])
 
+            configs = machineDoc["configs"]
+
+            for configKey in configs.keys():
+                key = configs[configKey][0]
+                value = configs[configKey][1]
+                tmpMc.addConfigFile(configKey, key, value)
+
             self.__machines.append(tmpMc)
+
+    def __getMachineObj(self, hostaddr):
+
+        if hostaddr in self.__machines:
+            return self.__machines[hostaddr]
 
     def __getFreeRam(self, machineObj):
         return int(
@@ -126,6 +136,9 @@ class EnvOps(object):
     def __FixService(self, hostaddr, serviceName, serviceState):
         pass
 
+    def __FixSampleConfigFile(self):
+        pass
+
     def __getMachineStatus(self, machineObj):
 
         # check for RAM and OS drive status
@@ -193,3 +206,8 @@ class EnvOps(object):
 
         self.mcDal.addMachine(machineObj)
         self.__machines.append(machineObj)
+
+    def removeMachine(self, hostaddr):
+
+        self.mcDal.delMachine(hostaddr)
+        self.__machines.remove(self.__getMachineObj(hostaddr))
