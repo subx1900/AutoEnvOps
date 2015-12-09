@@ -27,7 +27,7 @@ class MachineDal(object):
         machine_document = machine.__dict__
 
         # Insert the machine document into the machines collection
-        machine_id = self.__machines_collection.insert(machine_document)
+        machine_id = self.__machines_collection.insert(machine_document, check_keys=False)
 
     def updateMachine(self, s_hostaddr, u_hostaddr, u_description, u_osEnv, u_port_list, u_service_list, u_path_list):
         pass
