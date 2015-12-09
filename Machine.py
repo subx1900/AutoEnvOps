@@ -20,6 +20,7 @@ class Machine(object):
 
         self.ports = []
         self.services = {}
+        self.configs = {}
 
         # self.setOsTypeAndRelease()
 
@@ -57,6 +58,13 @@ class Machine(object):
     def addService(self, serviceName, serviceState):
         self.services[serviceName] = serviceState
 
+    def addConfigFile(self, fileFullPath, configAttribute, configValue):
+        self.configs[fileFullPath] = configAttribute, configValue
+
+    def removeConfigFile(self, fileFullPath):
+        if fileFullPath in self.configs:
+            del self.configs[fileFullPath]
+
     def removeService(self, serviceName):
         if serviceName in self.services:
             del self.services[serviceName]
@@ -87,3 +95,13 @@ class Machine(object):
             servicesStr += service + "(" + str(self.services[service]) + ") "
 
         print "Services: " + servicesStr
+
+        configStr = ""
+
+        for configkey in self.configs.keys():
+            key = self.configs[configkey][0]
+            value = self.configs[configkey][1]
+
+            configStr += configkey + "=> (" + key + " " + value +")\n"
+
+        print "Configuration:\n" + configStr
